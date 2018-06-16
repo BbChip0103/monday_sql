@@ -8,7 +8,7 @@ $(".login-form").validate({
       minlength: 10,
       remote: {
         type: 'post',
-        url: 'register/check_phone_number'
+        url: '/user/register/check_phone_number'
       }
     },
     username: {

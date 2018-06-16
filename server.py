@@ -3,14 +3,17 @@ import sys
 import time
 import os
 from flask_cors import CORS
-import pymysql as mysql
-
+# import pymysql as mysql
 sys.path.append('../metadata')
 import monday_sql_config as config
+
+# from module.redis_session import redis_session
+from module.user import User
 
 import time
 
 app = Flask(__name__)
+# app.secret_key = 'fjkzm2123kd@32z123fdfzdf'
 CORS(app)
 
 @app.after_request
@@ -26,147 +29,82 @@ def add_header(r):
     return r
 
 @app.route('/')
-def index(name=None):
+def index():
     # return render_template('registration.html', name=name)
-    return render_template('index.html', name=name)
+    return render_template('index.html')
 
 @app.route('/registration')
-def registration(name=None):
-    return render_template('registration.html', name=name)
+def registration():
+    return render_template('registration.html')
 
 @app.route('/matching')
-def matching(name=None):
-    return render_template('matching.html', name=name)
+def matching():
+    return render_template('matching.html')
 
-@app.route('/register', methods = ['POST'])
-def register(name=None):
+@app.route('/user/register', methods = ['POST'])
+def register():
     print(request.form['university'], file=sys.stderr)
     print(request.form['mobile'], file=sys.stderr)
     print(request.form['username'], file=sys.stderr)
     print(request.form['password'], file=sys.stderr)
     print(request.form['sex'], file=sys.stderr)
 
-    try :
-        conn = mysql.connect(host=config.MYSQL_CONFIG['host'],
-                             user=config.MYSQL_CONFIG['user'],
-                             passwd=config.MYSQL_CONFIG['passwd'],
-                             db=config.MYSQL_CONFIG['db'],
-                             charset='utf8')
-        cursor = conn.cursor()
-        query = "INSERT INTO student values (%s, %s, %s, %s, %s)"
-        value = (request.form['university'], request.form['mobile'],
-                 request.form['username'], request.form['password'],
-                 request.form['sex'])
-        cursor.execute(query, value)
-        data = cursor.fetchall()
-        conn.commit()
-        cursor.close()
-        conn.close()
+    result = User(config.MYSQL_CONFIG).create( request.form['university'],
+                            request.form['mobile'],
+                            request.form['username'],
+                            request.form['password'],
+                            request.form['sex']
+                            )
+
+    if result == None:
         return redirect('/')
-    except Exception as e :
-        conn.rollback()
-        return_dict = dict()
-        return_dict["success"] = False
-        return_dict["failure_short"] = "Unknown Failure " + str(e)
-        print(return_dict, file=sys.stderr)
-        return redirect('/registration', error=return_dict)
-
-
-@app.route('/register/check_phone_number', methods = ['POST'])
-def check_phone_number(name=None):
-    # TODO: check phone number
-    phone_numb = request.form['mobile']
-    print(phone_numb, file=sys.stderr)
-    conn = mysql.connect(host=config.MYSQL_CONFIG['host'],
-                         user=config.MYSQL_CONFIG['user'],
-                         passwd=config.MYSQL_CONFIG['passwd'],
-                         db=config.MYSQL_CONFIG['db'],
-                         charset='utf8')
-    cursor = conn.cursor()
-
-    query = "SELECT 1 FROM student WHERE phone_numb = %s"
-    value = (phone_numb)
-    cursor.execute(query, value)
-    data = cursor.fetchall()
-
-    if data:
-        print('phone numb already exist', file=sys.stderr)
-        print(data, file=sys.stderr)
-        result = 'false'
     else:
-        print('phone numb does not exist', file=sys.stderr)
-        print(data, file=sys.stderr)
-        result = 'true'
+        print(result, file=sys.stderr)
+        return redirect('/registration', error=result)
 
-    cursor.close()
-    conn.close()
+@app.route('/user/register/check_phone_number', methods = ['POST'])
+def check_phone_number():
+    print('/user/reg/chk phone numb :', request.form['mobile'], file=sys.stderr)
+    result = User(config.MYSQL_CONFIG).is_exist_phone_number(request.form['mobile'])
 
-    return result
+    if result == True : return 'false'
+    elif result == False : return 'true'
+    else : return result
 
-@app.route('/login', methods=['post'])
+@app.route('/user/login', methods=['POST'])
 def login():
-    phone_numb = request.form['mobile']
-    pw = request.form['password']
+    print('/user/login :', request.form['mobile'], request.form['password'], file=sys.stderr)
+    result = User(config.MYSQL_CONFIG).login(request.form['mobile'], request.form['password'])
 
-    conn = mysql.connect(host=config.MYSQL_CONFIG['host'],
-                         user=config.MYSQL_CONFIG['user'],
-                         passwd=config.MYSQL_CONFIG['passwd'],
-                         db=config.MYSQL_CONFIG['db'],
-                         charset='utf8')
-    cursor = conn.cursor()
+    if result == True : return redirect('/matching')
+    elif result == False : return render_template('/', error='not exist password') # not exist password
+    else : return result
 
-    query = "SELECT 1 FROM student WHERE phone_numb = %s and password = %s"
-    value = (phone_numb, pw)
-    # cursor.execute("set names utf8")
-    cursor.execute(query, value)
-    data = cursor.fetchall()
+@app.route('/user/login/is_exist_phone_number', methods = ['POST'])
+def is_exist_phone_number():
+    print(request.form['mobile'], file=sys.stderr)
+    result = is_exist_phone_number(request.form['mobile'])
 
-    cursor.close()
-    conn.close()
+    if result == True : return 'true'
+    elif result == False : return 'false'
+    else : return result
 
-    # for row in data:
-    #     data = row[0]
+@app.route('/user/logout', methods=['POST'])
+def logout():
+    if 'session_key' in session:
+        del session['session_key']
+    return redirect('/')
 
-    if data:
-        print ('login success', file=sys.stderr)
-        return redirect('/matching')
+@app.route('/user/delete', methods=['POST'])
+def delete():
+    result = User(config.MYSQL_CONFIG).delete(request.form['mobile'])
+
+    if result == None:
+        if 'session_key' in session:
+            del session['session_key']
+        return redirect('/')
     else:
-        error = 'Invalid input data detected!'
-
-    #return redirect(url_for('success', name=user))
-    return render_template('/', error=error)
-
-@app.route('/login/is_exist_phone_number', methods = ['POST'])
-def is_exist_phone_number(name=None):
-    # TODO: check phone number
-    phone_numb = request.form['mobile']
-    print(phone_numb, file=sys.stderr)
-    conn = mysql.connect(host=config.MYSQL_CONFIG['host'],
-                         user=config.MYSQL_CONFIG['user'],
-                         passwd=config.MYSQL_CONFIG['passwd'],
-                         db=config.MYSQL_CONFIG['db'],
-                         charset='utf8')
-    cursor = conn.cursor()
-
-    query = "SELECT 1 FROM student WHERE phone_numb = %s"
-    value = (phone_numb)
-    cursor.execute(query, value)
-    data = cursor.fetchall()
-
-    if data:
-        print('phone numb already exist', file=sys.stderr)
-        print(data, file=sys.stderr)
-        result = 'true'
-    else:
-        print('phone numb does not exist', file=sys.stderr)
-        print(data, file=sys.stderr)
-        result = 'false'
-
-    cursor.close()
-    conn.close()
-
-    return result
-
+        return redirect('/matching', error=result)
 
 if __name__ == '__main__':
     # app.run(port=5000)

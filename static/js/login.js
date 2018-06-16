@@ -7,7 +7,7 @@ $(document).ready(function(){
 				minlength: 10,
 				remote: {
 					type: 'post',
-					url: 'login/is_exist_phone_number'
+					url: '/user/login/is_exist_phone_number'
 				}
 			},
 			password:{
