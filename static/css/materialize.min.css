@@ -5301,6 +5301,7 @@ button.btn-floating {
   height: 18px;
   -webkit-transform: none;
   transform: none
+  padding-left: 100px;
 }
 
 /*!
@@ -6168,7 +6169,9 @@ textarea.materialize-textarea {
   background-color: rgba(0, 0, 0, 0.42);
   border-color: #949494
 }
-
+[type="checkbox"]{
+  padding-left: 50px;
+}
 [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
   position: absolute;
   opacity: 0;
@@ -6177,12 +6180,12 @@ textarea.materialize-textarea {
 
 [type="checkbox"]+span:not(.lever) {
   position: relative;
-  padding-left: 35px;
+  padding-left: 50px;
   cursor: pointer;
   display: inline-block;
   height: 25px;
   line-height: 25px;
-  font-size: 1rem;
+  font-size: 3rem;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -6295,8 +6298,8 @@ textarea.materialize-textarea {
 }
 
 [type="checkbox"].filled-in:not(:checked)+span:not(.lever):after {
-  height: 20px;
-  width: 20px;
+  height: 40px;
+  width: 40px;
   background-color: transparent;
   border: 2px solid #5a5a5a;
   top: 0px;
@@ -6306,8 +6309,8 @@ textarea.materialize-textarea {
 [type="checkbox"].filled-in:checked+span:not(.lever):before {
   top: 0;
   left: 1px;
-  width: 8px;
-  height: 13px;
+  width: 16px;
+  height: 26px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
   border-right: 2px solid #fff;
@@ -6320,8 +6323,8 @@ textarea.materialize-textarea {
 
 [type="checkbox"].filled-in:checked+span:not(.lever):after {
   top: 0;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   border: 2px solid #26a69a;
   background-color: #26a69a;
   z-index: 0
