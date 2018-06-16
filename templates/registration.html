@@ -4,6 +4,7 @@
   <link href="static/css/regist.css" rel="stylesheet" type="text/css">
   <link href="static/css/materialize.css" rel="stylesheet" type="text/css">
   <link href="static/css/materialize.min.css" rel="stylesheet" type="text/css">
+
 </head>
 <title>혼밥 매칭 회원가입</title>
 
@@ -24,8 +25,12 @@
             <i class="material-icons prefix">
               <img src="static/img/school.png" width="45" height="40">
             </i>
-            <input id="university" name="university" type="text" style="cursor: auto;" />
-            <label for="university">Seoil OR Sejong</label>
+            <select>
+              <option value="" disabled selected>Choose your University</option>
+              <option value="Seoil">Seoil University</option>
+              <option value="Sejong">Sejong University</option>
+              <option value="Konkuc">Konkuk University</option>
+            </select>
           </div>
         </div>
 
@@ -76,11 +81,18 @@
         <div class="row margin">
           <div class="input-field col s12">
             <!-- <i class="mdi-social-person-outline prefix"></i> -->
-            <i class="material-icons prefix">
-		          <img src="static/img/user.png" width="45" height="45">
-            </i>
-            <input id="sex" name="sex" type="text" />
-            <label for="sex">Male/Female</label>
+
+            <p style="padding-left: 100px;">
+              <label>
+                <input type="checkbox" class="filled-in"/>
+                <span>Male</span>
+
+              </label>
+              <label style="padding-left: 200px;">
+                <input type="checkbox" class="filled-in" />
+                <span>Female</span>
+              </label>
+            </p>
           </div>
         </div>
 
@@ -102,5 +114,6 @@
   <script src="static/js/regist.js"></script>
   <script src="static/js/materialize.js"></script>
   <script src="static/js/materialize.min.js"></script>
+  <script src="static/js/select.js"></script>
 
 </body>

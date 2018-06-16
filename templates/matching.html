@@ -1,104 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>학교 별 식사 매칭 서비스</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/login.css" rel="stylesheet">
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="static/css/matchingtime_reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="static/css/matchingtime_style.css"> <!-- Resource style -->
+	<link href="static/css/freelancer.min.css" rel="stylesheet">
+	<script src="static/js/modernizr.js"></script> <!-- Modernizr -->
 
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+	<title>학교 별 식사 매칭 서비스</title>
+</head>
+<body id="page-top">
 
-    <!-- Custom styles for this template -->
-    <link href="css/freelancer.min.css" rel="stylesheet">
-    <style>
-    body {
-            background-image: url("img/food.jpg");
-            background-repeat: no-repeat;
-            background-size: 500px 800px;
-            background-position: center;
-    }
+	<a class="cd-nav-trigger cd-text-replace" href="#primary-nav">Menu<span aria-hidden="true" class="cd-icon"></span></a>
 
-    </style>
-  </head>
+	<div class="cd-projects-container">
+		<ul class="cd-projects-previews">
+			<li>
+				<a href="#0">
+					<div class="cd-project-title">
+						<h2>점심시간 신청하기</h2>
+					</div>
+				</a>
+			</li>
 
-  <body id="page-top">
+			<li>
+				<a href="#0">
+					<div class="cd-project-title">
+						<h2>저녁시간 신청하기</h2>
+					</div>
+				</a>
+			</li>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="index.html">식사 매칭 서비스</a>
-      </div>
-    </nav>
+		</ul> <!-- .cd-projects-previews -->
 
-    <!-- Header -->
-    <header class="masthead text-white text-center">
-      <div class="container">
-        <h1 class="text-uppercase mb-0">매칭 신청</h1>
-        <hr class="star-light"></hr>
-      </div>
-    </header>
-    <div class="row">
-  		<div class="col-md-4 col-md-offset-4 text-center">
-  			<div class="search-box">
+		<ul class="cd-projects">
+			<li>
+				<div class="preview-image">
+					<div class="cd-project-title">
+						<h2>12 : 00 ~ 13 : 00</h2>
+            <input type="button" id="lunch" value="신청하기 ! " onClick="location.href='preference.html'">
 
-  				<form action="" class="matchingForm">
+					</div>
+				</div>
 
-  					<div class="input-group">
-  						<input type="button" id="Lunch" class="form-control" value="점심시간 매칭 신청<12:00 ~ 14:00>" onClick="location.href='recommend_jumbo.html'">
-              <input type="button" id="Dinner" class="form-control" value="저녁시간 매칭 신청<17:00 ~ 19:00>" onClick="location.href='recommend_jumbo.html'">
-            </div>
+ <!-- .cd-project-info -->
+			</li>
 
-          </form>
-  			</div>
-  		</div>
-    </div>
+			<li>
+				<div class="preview-image">
+					<div class="cd-project-title">
+						<h2>18 : 00 ~ 19 : 00</h2>
+            <input type="button" id="dinner" value="신청하기 ! " onClick="location.href='preference.html'">
 
-  	</div>
-    <!-- Portfolio Grid Section -->
+					</div>
+				</div>
 
+ <!-- .cd-project-info -->
+			</li>
 
+		</ul> <!-- .cd-projects -->
 
-    <!-- Contact Section -->
+		<button class="scroll cd-text-replace">Scroll</button>
+	</div> <!-- .cd-project-container -->
 
-    <!-- Footer -->
+	<nav class="cd-primary-nav" id="primary-nav">
+		<ul>
+			<li class="cd-label">혼밥 매칭 서비스</li>
+			<li><a href="/matching">초기 선택으로</a></li>
+			<li><a href="#0">로그아웃</a></li>
+      <li><a href="#0">회원탈퇴</a></li>
 
-
-
-    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
-
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
-    <!-- Contact Form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/freelancer.min.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/jquery-3.3.1.js"></script>
-
-
-  </body>
-
+		</ul>
+	</nav> <!-- .cd-primary-nav -->
+<script src="static/js/jquery-2.1.1.js"></script>
+<script src="static/js/slider.js"></script>
+<script src="static/js/materialize.js"></script>
+<script src="static/js/materialize.min.js"></script>
+<script src="static/js/main.js"></script> <!-- Resource jQuery -->
+</body>
 </html>
