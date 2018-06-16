@@ -1,0 +1,171 @@
+/* Base CSS */
+.alignleft {
+    float: left;
+    margin-right: 15px;
+}
+.alignright {
+    float: right;
+    margin-left: 15px;
+}
+.aligncenter {
+    display: block;
+    margin: 0 auto 15px;
+}
+a:focus { outline: 0 solid }
+
+.fix { overflow: hidden }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 15px;
+    font-weight: 700;
+}
+html,
+body { height: 100%; width:100%; }
+
+a {
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    color: #333;
+}
+a:hover { text-decoration: none }
+
+
+
+.search-box{margin:1px auto;position:absolute;}
+
+.caption{margin-bottom:50px;}
+select {
+    width: 200px;
+    height: 30px;
+    padding-left: 10px;
+    font-size: 18px;
+    border: 1px solid #006fff;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+.recommend {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  width:100%;
+  width: 400px;
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: bold;
+
+}
+
+.recommend input[type=button]{
+  width:100%;
+	background:#fb044a;
+	color:#fff;
+	font-weight:700;
+  margin-top: 5px;
+  margin-bottom:20px;
+}
+.matchingForm{
+  margin-left:8%;
+  width:80%;
+}
+.matchingForm input[type=button]{
+  width:100%;
+	background:#fb044a;
+	color:#fff;
+	font-weight:700;
+  margin-bottom:20px;
+
+}
+.loginForm{
+  margin-left:10%;
+  width:80%;
+}
+
+.loginForm input[type=text], .loginForm input[type=password]{
+  width:100%;
+	margin-bottom:5px;
+}
+.loginForm input[type=button]{
+  width:100%;
+	background:#fb044a;
+	color:#fff;
+	font-weight:700;
+  margin-bottom:10px;
+
+}
+.loginForm input[type=submit]{
+  width:100%;
+	background:#fb044a;
+	color:#fff;
+	font-weight:700;
+  margin-bottom:10px;
+
+}
+
+/*
+#pswd_info {
+	background: #dfdfdf none repeat scroll 0 0;
+	color: #fff;
+	left: 20px;
+	position: absolute;
+	top: 115px;
+}
+#pswd_info h4{
+    background: black none repeat scroll 0 0;
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0;
+    padding: 17px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+#pswd_info ul {
+    list-style: outside none none;
+}
+#pswd_info ul li {
+   padding: 10px 45px;
+}
+*/
+
+.form-control.valid {
+	/* color: green; */
+  border:0.25rem solid green;
+}
+
+.form-control.invalid {
+}
+
+.form-control.error{
+  border:0.25rem solid #fb044a;
+}
+
+#pswd_info::before {
+    background: #dfdfdf none repeat scroll 0 0;
+    content: "";
+    height: 25px;
+    left: -13px;
+    margin-top: -12.5px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 25px;
+}
+#pswd_info {
+    display:none;
+}
+
+div.error{
+    position: relative;
+    top: -0.3rem;
+    left: 1rem;
+    font-size: 1rem;
+    color:#FF4081;
+    -webkit-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -o-transform: translateY(0%);
+    transform: translateY(0%);
+}
