@@ -1,6 +1,7 @@
 #coding:utf-8
 from redis import Redis
 from twilio.rest import Client
+from time import time
 import math
 
 import sys
@@ -12,9 +13,9 @@ class RedisMatching:
         self.db = Redis(host=config['host'], port=config['port'], db=config['db'], decode_responses=True)
         self.msg_client = Client(config['account_sid'], config['auth_token']).messages
         self.msg_sender = config['sender']
-        # self.app_key =
 
     def set_userdata(self, user_data):
+        user_data['timestamp'] = int(time())
         return self.db.hmset(user_data['phone_numb'], user_data)
 
     def get_userdata(self, user_name):
@@ -28,7 +29,7 @@ class RedisMatching:
 
     def send_message(self, phone_numb, message):
         phone_numb = '+82'+phone_numb[1:]
-        result = self.msg_client.create(to="+821020387828",
+        result = self.msg_client.create(to=phone_numb,
                                         from_=self.msg_sender,
                                         body=message
                                         )
@@ -45,30 +46,39 @@ class RedisMatching:
                             int(user_data['noodle']),
                             int(user_data['korean_food']) ]
             return food_vector
-        def make_message_text(target_name, user_data):
-            text ='%s님 매칭완료!\n이름:%s\n성별:%s\n전화번호:%s\n' \
-                    %(target_name, user_data['username'],
-                        user_data['gender'], user_data['phone_numb'])
+        def make_message_text(target_name, user_data, similarity=0):
+            if user_data['gender'] == 'male' : user_data['gender'] = '남'
+            elif user_data['gender'] == 'female' : user_data['gender'] = '여'
+            text ='%s님, 혼밥러 매칭완료!\n\n상대 : %s님\n연락처 : %s\n성별 : %s\n유사도 : %0.2f' \
+                    %(target_name, user_data['user_name']
+                        , user_data['phone_numb'], user_data['gender']
+                        , similarity*100)
             return text
 
         while(len(self.get_all_user()) >= 2):
             user_list = self.get_all_user()
             user_data_list = list(map(self.get_userdata, user_list))
+            user_data_list = [[user_data['timestamp'], user_data] for user_data in user_data_list]
+            user_data_list = [user_data[1] for user_data in sorted(user_data_list)]
+            print(user_data_list)
 
             target_user = user_data_list[0]
             target_vec = make_food_vector(target_user)
 
+            similarity_list = []
             for user_data in user_data_list[1:]:
                 user_vec = make_food_vector(user_data)
-                similarity = cosine_similarity(target_vec, user_vec)
+                similarity = RedisMatching.cosine_similarity(target_vec, user_vec)
                 similarity_list.append( (similarity, user_data) )
 
             max_val = max(similarity_list)
-
-            text = make_message_text(target_user['phone_numb'], max_val[1])
+            print(max_val)
+            text = make_message_text(target_user['user_name'], max_val[1], max_val[0])
             self.send_message(target_user['phone_numb'], text)
-            text = make_message_text(max_val[1]['phone_numb'], target_user)
+            print(text)
+            text = make_message_text(max_val[1]['user_name'], target_user, max_val[0])
             self.send_message(max_val[1]['phone_numb'], text)
+            print(text)
 
             # self.remove_userdata(target_user['phone_numb'])
             # self.remove_userdata(max_val[1]['phone_numb'])

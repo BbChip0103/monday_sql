@@ -94,9 +94,9 @@ class User(object):
             query = "SELECT school, phone_numb, user_name, gender FROM student WHERE phone_numb = %s"
             value = (phone_numb)
             cursor.execute(query, value)
-            data = cursor.fetchall()
+            user_data = cursor.fetchall()
             cursor.close()
-            if data : return {'school':user_data[0][0],
+            if user_data : return {'school':user_data[0][0],
                               'phone_numb':user_data[0][1],
                               'user_name':user_data[0][2],
                               'gender':user_data[0][3]

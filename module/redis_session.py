@@ -10,7 +10,7 @@ class RedisSession:
     def __init__(self, config):
         self.prefix = config['prefix']
         self.timeout = config['timeout']
-        self.db = Redis(host=config['host'], port=config['port'], db=config['db'])
+        self.db = Redis(host=config['host'], port=config['port'], db=config['db'], decode_responses=True)
 
     # 세션이 있으면 타임아웃 만큼 다시 연장해주고 없으면 False 있으면 사용자id 리턴
     def open_session(self, session_key):

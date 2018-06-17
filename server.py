@@ -8,6 +8,7 @@ sys.path.append('../metadata')
 import monday_sql_config as config
 
 from module.redis_session import RedisSession
+from module.redis_matching import RedisMatching
 from module.user import User
 
 import time
@@ -62,13 +63,13 @@ def register():
     print(request.form['mobile'], file=sys.stderr)
     print(request.form['username'], file=sys.stderr)
     print(request.form['password'], file=sys.stderr)
-    print(request.form['sex'], file=sys.stderr)
+    print(request.form['gender'], file=sys.stderr)
 
     result = User(config.MYSQL_CONFIG).create(request.form['university'],
                                               request.form['mobile'],
                                               request.form['username'],
                                               request.form['password'],
-                                              request.form['sex']
+                                              request.form['gender']
                                               )
 
     if result == None:
@@ -144,8 +145,8 @@ def matching_apply():
     if user_name == None:
         flash('너무 오래 고민하셨네요. 다시 로그인해 주세요.')
         return redirect('/')
-
     user_data = User(config.MYSQL_CONFIG).get_userdata(user_name)
+    print(user_data, file=sys.stderr)
     if user_data == None :
         flash('원인 불명의 에러입니다.')
         return redirect('/')
@@ -158,9 +159,9 @@ def matching_apply():
     matching_config = config.REDIS_MATCH_CONF
     matching_config.update(config.TWILLO_CONFIG)
     RedisMatching(matching_config).set_userdata(user_data)
-
+    
     flash('신청 완료. 매칭 결과는 문자로 알려드릴 예정입니다.')
-    redirect('/matching')
+    return redirect('/matching')
 
 
 def check_session():
@@ -173,6 +174,7 @@ def check_session():
         del session['session_key']
 
     return user_name
+
 
 if __name__ == '__main__':
     # app.run(port=5000)

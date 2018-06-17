@@ -22,7 +22,7 @@
 <body>
   <div id="regist-page" class="row">
     <div class="col s12 z-depth-4 card-panel">
-      <form class="login-form" action="/register" method="POST">
+      <form class="login-form" action="/user/register" method="POST">
         <div class="row">
           <div class="input-field col s12 center">
             <h1>회원가입</h1>
@@ -36,11 +36,8 @@
             <i class="material-icons prefix">
               <img src="static/img/school.png" width="45" height="40">
             </i>
-            <select>
-              <option value="" disabled selected>Choose your University</option>
-              <option value="Seoil">Seoil University</option>
-              <option value="Sejong">Sejong University</option>
-              <option value="Konkuc">Konkuk University</option>
+            <input id="university" name="university" type="text" style="cursor: auto;" />
+            <label for="university">University</label>
             </select>
           </div>
         </div>
@@ -51,7 +48,7 @@
             <i class="material-icons prefix">
               <img src="static/img/mobile.png" width="45" height="45">
             </i>
-            <input id="mobile" name="mobile" type="text" style="cursor: auto;" />
+            <input id="mobile" name="mobile" type="text" />
             <label for="mobile">Phone Number</label>
           </div>
         </div>
@@ -93,17 +90,16 @@
           <div class="input-field col s12">
             <!-- <i class="mdi-social-person-outline prefix"></i> -->
 
-            <p style="padding-left: 100px;">
+            <div class="filled-in">
               <label>
-                <input type="checkbox" class="filled-in"/>
+                <input type="radio" name="gender" checked="checked" value="male" />
                 <span>Male</span>
-
               </label>
-              <label style="padding-left: 200px;">
-                <input type="checkbox" class="filled-in" />
+              <label>
+                <input type="radio" name="gender" value="Female" />
                 <span>Female</span>
               </label>
-            </p>
+            </div>
           </div>
         </div>
 
@@ -125,6 +121,6 @@
   <script src="static/js/regist.js"></script>
   <script src="static/js/materialize.js"></script>
   <script src="static/js/materialize.min.js"></script>
-  <script src="static/js/select.js"></script>
+  <!-- <script src="static/js/select.js"></script> -->
 
 </body>

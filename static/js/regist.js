@@ -24,7 +24,7 @@ $(".login-form").validate({
       minlength: 5,
       equalTo: password
     },
-    sex: {
+    gender: {
       required : true
     }
   },
@@ -39,20 +39,20 @@ $(".login-form").validate({
       remote : "존재하는 핸드폰번호입니다"
     },
     username: {
-      required : "필수로입력하세요",
+      required : "필수로 입력하세요",
       maxlength : "최대 {0}글자이하이어야 합니다"
     },
     password: {
-      required : "필수로입력하세요",
+      required : "필수로 입력하세요",
       minlength : "최소 {0}글자이상이어야 합니다"
     },
     cpassword: {
-      required : "필수로입력하세요",
+      required : "필수로 입력하세요",
       minlength : "최소 {0}글자이상이어야 합니다",
       equalTo : "비밀번호가 일치하지 않습니다."
     },
-    sex: {
-      required : "필수로입력하세요"
+    gender: {
+      required : "필수로 선택하세요"
     },
   },
   errorElement : 'div',
