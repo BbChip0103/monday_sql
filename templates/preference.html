@@ -53,83 +53,80 @@
 			</li>
 		</ul> <!-- .cd-projects-previews -->
 
-		<ul class="cd-projects">
-			<li>
-				<div class="preview-image">
-					<div class="cd-project-title">
-						<h2>돈까스</h2>
+		<form id="matching_apply" action="/user/matching_apply" method="POST">
+			<ul class="cd-projects">
+				<li>
+					<div class="preview-image">
+						<div class="cd-project-title">
+							<h2>양식</h2>
+						</div>
 					</div>
-				</div>
 
-				<div class="cd-project-info">
-					<div id="test-slider">
-					<form action="#">
+					<div class="cd-project-info">
+						<div id="test-slider">
 					    <p class="range-field">
-								돈까스 선호도 조사
-					      <input type="range" id="pork_point" min="0" max="10" />
+								오늘 돈까스는 어때요?
+					      <input type="range" id="pork_point" min="0" max="100" step="5" value="50" name="cutlet"/>
 					    </p>
-					  </form>
 						</div>
-				</div> <!-- .cd-project-info -->
-			</li>
+					</div> <!-- .cd-project-info -->
+				</li>
 
-			<li>
-				<div class="preview-image">
-					<div class="cd-project-title">
-						<h2>햄버거</h2>
+				<li>
+					<div class="preview-image">
+						<div class="cd-project-title">
+							<h2>패스트푸드</h2>
+						</div>
 					</div>
-				</div>
 
-				<div class="cd-project-info">
-					<div id="test-slider">
-					<form action="#">
+					<div class="cd-project-info">
+						<div id="test-slider">
 							<p class="range-field">
-								햄버거 선호도 조사
-								<input type="range" id="hamburger_point" min="0" max="10" />
+								오늘 햄버거는 어떄요?
+								<input type="range" id="hamburger_point" min="0" max="100" step="5" value="50" name="hamburger"/>
 							</p>
-						</form>
 						</div>
-				</div> <!-- .cd-project-info -->
-			</li>
+					</div> <!-- .cd-project-info -->
+				</li>
 
-			<li>
-				<div class="preview-image">
-					<div class="cd-project-title">
-						<h2>국수</h2>
+				<li>
+					<div class="preview-image">
+						<div class="cd-project-title">
+							<h2>면</h2>
+						</div>
 					</div>
-				</div>
 
-				<div class="cd-project-info">
-					<div id="test-slider">
-					<form action="#">
+					<div class="cd-project-info">
+						<div id="test-slider">
 							<p class="range-field">
-								국수 선호도 조사
-								<input type="range" id="noodle_point" min="0" max="10" />
+								오늘 국수는 어때요?
+								<input type="range" id="noodle_point" min="0" max="100" step="5" value="50" name="noodle"/>
 							</p>
-						</form>
 						</div>
-				</div> <!-- .cd-project-info -->
-			</li>
+					</div> <!-- .cd-project-info -->
+				</li>
 
-			<li>
-				<div class="preview-image">
-					<div class="cd-project-title">
-						<h2>한식</h2>
+				<li>
+					<div class="preview-image">
+						<div class="cd-project-title">
+							<h2>한식</h2>
+						</div>
 					</div>
-				</div>
 
-				<div class="cd-project-info">
-					<div id="test-slider">
-					<form action="#">
+					<div class="cd-project-info">
+						<div id="test-slider">
 							<p class="range-field">
-								한식 선호도 조사
-								<input type="range" id="korean_point" min="0" max="10" />
+								오늘 백반은 어떄요?
+								<input type="range" id="korean_point" min="0" max="100" step="5" value="50" name="korean_food"/>
+								<!-- <input type="text"/>
+								<input type="text"/>
+								<input type="submit"/> -->
 							</p>
-						</form>
 						</div>
-				</div> <!-- .cd-project-info -->
-			</li>
-		</ul> <!-- .cd-projects -->
+					</div> <!-- .cd-project-info -->
+				</li>
+			</ul> <!-- .cd-projects -->
+		</form>
 
 		<button class="scroll cd-text-replace">Scroll</button>
 	</div> <!-- .cd-project-container -->
@@ -137,15 +134,12 @@
 	<nav class="cd-primary-nav" id="primary-nav">
 		<ul>
 			<li class="cd-label">혼밥 매칭 서비스</li>
-			<li><a href="/complete">신청 완료</a></li>
+			<li><a onClick="$('#matching_apply').submit();">신청 완료</a></li>
 			<li><a href="/matching">초기 선택으로</a></li>
-			<li><a href="#0">로그아웃</a></li>
-			<li><a href="#0">회원탈퇴</a></li>
-
 		</ul>
 	</nav> <!-- .cd-primary-nav -->
 <script src="static/js/jquery-2.1.1.js"></script>
-<script src="static/js/slider.js"></script>
+<!-- <script src="static/js/slider.js"></script> -->
 <script src="static/js/materialize.js"></script>
 <script src="static/js/materialize.min.js"></script>
 <script src="static/js/main.js"></script> <!-- Resource jQuery -->

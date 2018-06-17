@@ -42,19 +42,19 @@ def registration():
 
 @app.route('/matching')
 def matching():
-    # user_name = check_session()
-    # if user_name is None:
-    #     return redirect('/')
+    user_name = check_session()
+    if user_name is None:
+        return redirect('/')
 
     return render_template('matching.html')
 
-@app.route('/recommend')
-def recommend():
-    # user_name = check_session()
-    # if user_name is None:
-    #     return redirect('/')
+@app.route('/preference')
+def preference():
+    user_name = check_session()
+    if user_name is None:
+        return redirect('/')
 
-    return render_template('recommend.html')
+    return render_template('preference.html')
 
 @app.route('/user/register', methods = ['POST'])
 def register():
@@ -121,7 +121,7 @@ def logout():
         flash('로그아웃 완료')
     return redirect('/')
 
-@app.route('/user/delete', methods=['POST'])
+@app.route('/user/delete', methods=['GET', 'POST'])
 def delete():
     result = User(config.MYSQL_CONFIG).delete(request.form['mobile'])
 
@@ -132,6 +132,36 @@ def delete():
         return redirect('/')
     else:
         return redirect('/matching', error=result)
+
+@app.route('/user/matching_apply', methods=['POST'])
+def matching_apply():
+    print(request.form['cutlet'], file=sys.stderr)
+    print(request.form['hamburger'], file=sys.stderr)
+    print(request.form['noodle'], file=sys.stderr)
+    print(request.form['korean_food'], file=sys.stderr)
+
+    user_name = check_session()
+    if user_name == None:
+        flash('너무 오래 고민하셨네요. 다시 로그인해 주세요.')
+        return redirect('/')
+
+    user_data = User(config.MYSQL_CONFIG).get_userdata(user_name)
+    if user_data == None :
+        flash('원인 불명의 에러입니다.')
+        return redirect('/')
+
+    user_data['cutlet'] = request.form['cutlet']
+    user_data['hamburger'] = request.form['hamburger']
+    user_data['noodle'] = request.form['noodle']
+    user_data['korean_food'] = request.form['korean_food']
+
+    matching_config = config.REDIS_MATCH_CONF
+    matching_config.update(config.TWILLO_CONFIG)
+    RedisMatching(matching_config).set_userdata(user_data)
+
+    flash('신청 완료. 매칭 결과는 문자로 알려드릴 예정입니다.')
+    redirect('/matching')
+
 
 def check_session():
     if 'session_key' not in session:

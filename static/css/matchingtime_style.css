@@ -393,7 +393,7 @@ Projects
 .cd-project-title {
   position: absolute;
   width: 100%;
-  top: calc(50% - 20px);
+  top: calc(55%);
   left: 0;
   color: #ffffff;
   -webkit-transform: translateY(-37.5vh);
