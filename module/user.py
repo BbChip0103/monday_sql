@@ -1,17 +1,18 @@
 #coding:utf-8
+import pymysql
+
 import sys
 sys.path.append('../../metadata')
 import monday_sql_config as config
-import pymysql
 
 # 사용자 정보
 class User(object):
     def __init__(self, config):
         self.conn = pymysql.connect(host=config['host'],
-                             user=config['user'],
-                             passwd=config['passwd'],
-                             db=config['db'],
-                             charset='utf8')
+                                    user=config['user'],
+                                    passwd=config['passwd'],
+                                    db=config['db'],
+                                    charset='utf8')
 
     # /user/register
     def create(self, university, phone_numb, username, password, sex):

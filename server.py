@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response, redirect
+from flask import Flask, render_template, request, redirect, session, flash
 import sys
 import time
 import os
@@ -7,13 +7,13 @@ from flask_cors import CORS
 sys.path.append('../metadata')
 import monday_sql_config as config
 
-# from module.redis_session import redis_session
+from module.redis_session import RedisSession
 from module.user import User
 
 import time
 
 app = Flask(__name__)
-# app.secret_key = 'fjkzm2123kd@32z123fdfzdf'
+app.secret_key = config.APP_CONFIG['secret_key']
 CORS(app)
 
 @app.after_request
@@ -30,8 +30,11 @@ def add_header(r):
 
 @app.route('/')
 def index():
-    # return render_template('registration.html', name=name)
-    return render_template('index.html')
+    user_name = check_session()
+    if user_name is None:
+        return render_template('index.html')
+
+    return redirect('/matching')
 
 @app.route('/registration')
 def registration():
@@ -39,7 +42,19 @@ def registration():
 
 @app.route('/matching')
 def matching():
+    # user_name = check_session()
+    # if user_name is None:
+    #     return redirect('/')
+
     return render_template('matching.html')
+
+@app.route('/recommend')
+def recommend():
+    # user_name = check_session()
+    # if user_name is None:
+    #     return redirect('/')
+
+    return render_template('recommend.html')
 
 @app.route('/user/register', methods = ['POST'])
 def register():
@@ -49,17 +64,21 @@ def register():
     print(request.form['password'], file=sys.stderr)
     print(request.form['sex'], file=sys.stderr)
 
-    result = User(config.MYSQL_CONFIG).create( request.form['university'],
-                            request.form['mobile'],
-                            request.form['username'],
-                            request.form['password'],
-                            request.form['sex']
-                            )
+    result = User(config.MYSQL_CONFIG).create(request.form['university'],
+                                              request.form['mobile'],
+                                              request.form['username'],
+                                              request.form['password'],
+                                              request.form['sex']
+                                              )
 
     if result == None:
+        session_key = RedisSession(config.REDIS_SESS_CONF).save_session(request.form['mobile'])
+        session['session_key'] = session_key
+        flash('회원가입 완료')
         return redirect('/')
     else:
         print(result, file=sys.stderr)
+        flash('알 수 없는 에러')
         return redirect('/registration', error=result)
 
 @app.route('/user/register/check_phone_number', methods = ['POST'])
@@ -76,23 +95,30 @@ def login():
     print('/user/login :', request.form['mobile'], request.form['password'], file=sys.stderr)
     result = User(config.MYSQL_CONFIG).login(request.form['mobile'], request.form['password'])
 
-    if result == True : return redirect('/matching')
-    elif result == False : return render_template('/', error='not exist password') # not exist password
-    else : return result
+    if result == True:
+        session_key = RedisSession(config.REDIS_SESS_CONF).save_session(request.form['mobile'])
+        session['session_key'] = session_key
+        return redirect('/matching')
+    elif result == False:
+        flash('비밀번호를 잘못 입력하셨습니다.')
+        return redirect('/') # not exist password
+    else:
+        return result
 
 @app.route('/user/login/is_exist_phone_number', methods = ['POST'])
 def is_exist_phone_number():
     print(request.form['mobile'], file=sys.stderr)
-    result = is_exist_phone_number(request.form['mobile'])
+    result = User(config.MYSQL_CONFIG).is_exist_phone_number(request.form['mobile'])
 
     if result == True : return 'true'
     elif result == False : return 'false'
     else : return result
 
-@app.route('/user/logout', methods=['POST'])
+@app.route('/user/logout', methods=['GET', 'POST'])
 def logout():
     if 'session_key' in session:
         del session['session_key']
+        flash('로그아웃 완료')
     return redirect('/')
 
 @app.route('/user/delete', methods=['POST'])
@@ -102,9 +128,21 @@ def delete():
     if result == None:
         if 'session_key' in session:
             del session['session_key']
+        flash('회원탈퇴 성공')
         return redirect('/')
     else:
         return redirect('/matching', error=result)
+
+def check_session():
+    if 'session_key' not in session:
+        return None
+    session_key = session['session_key']
+    user_name = RedisSession(config.REDIS_SESS_CONF).open_session(session_key)
+
+    if user_name is None :
+        del session['session_key']
+
+    return user_name
 
 if __name__ == '__main__':
     # app.run(port=5000)
